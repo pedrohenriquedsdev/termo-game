@@ -9,9 +9,16 @@
                 Console.WriteLine("Digite ENTER para dar início");
                 Console.ReadLine();
 
+                bool jogoAtivo = true;
 
+                while (jogoAtivo)
+                {
 
-                Console.WriteLine("Deseja continuar? (s/N)"); 
+                    //executamos 
+
+                }
+
+                Console.WriteLine("Deseja continuar? (s/N)");
                 string? usuarioDesejaContinuar = Console.ReadLine()!.ToUpper();
 
                 //VERIFICA INPUT DO USER PARA CONTINUAÇÃO OU NÃO DO PROGRAM
@@ -32,8 +39,8 @@
 
                 else
                     Console.WriteLine("Apenas (S/N) serão aceitos");
-
             }
+           
         }
     }
 }
