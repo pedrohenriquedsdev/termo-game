@@ -143,16 +143,19 @@ namespace JogoTermo.ConsoleApp
 
                 while (jogoAtivo)
                 {
-                    string[] palavras = { "CASA", "LIVRO", "PRATO", "PEDRA", "BARCO" };
+                    string[] palavras = { "CASAS", "LIVRO", "PRATO", "PEDRA", "BARCO" };
 
                     int indiceAleatorio = RandomNumberGenerator.GetInt32(palavras.Length);
 
                     string palavraAleatoria = palavras[indiceAleatorio];
                     Console.WriteLine($"Colinha da palavra aleatória: {palavraAleatoria}"); //ocultar a palavra depois
 
-                    //lógica do game para quem 
+
                     bool jogadorAcertou = false;
                     int tentativas = 0;
+                    List<string> tentativasFeitas = new List<string>(); //armazenda palavras ja digitadas para nao contar como tentativa
+
+
 
                     while (!jogadorAcertou)
                     {                    
@@ -161,23 +164,41 @@ namespace JogoTermo.ConsoleApp
                         string palavraDigitada = Console.ReadLine()!.ToUpper();
                         //tratar erros de entrada
 
-                        tentativas++;
-
-                        if (tentativas >= 5)
+                        if (string.IsNullOrWhiteSpace(palavraDigitada))
                         {
-                            Console.WriteLine("Acabaram as chances. Você perdeu");
-                            jogoAtivo = false;
-                            break;
+                            Console.Write("Digite uma palavra válida.");
+                            continue;
                         }
 
-                        else if (palavraDigitada == palavraAleatoria) //user acertou de primeira o fdp
+                        if (palavraDigitada.Length != palavraAleatoria.Length)
+                        {
+                            Console.WriteLine($"A palavra deve ter {palavraAleatoria.Length} letras.");
+                            continue;
+                        }
+
+                        if (!palavraDigitada.All(char.IsLetter))
+                        {
+                            Console.WriteLine("Digite apenas letras.");
+                            continue;
+                        }
+
+                        if (tentativasFeitas.Contains(palavraDigitada))
+                        {
+                            Console.WriteLine("Você já tentou essa palavra.");
+                            continue;
+                        }
+
+                        tentativasFeitas.Add(palavraDigitada);
+
+                        tentativas++;
+                        
+                        if (palavraDigitada == palavraAleatoria) //user acertou de primeira o fdp
                         {
                             Console.WriteLine("Usuário acertou a palavra!");
                             Console.WriteLine($"Em {tentativas} tentativa(s)");
                             jogadorAcertou = true;
                             jogoAtivo = false;
                         }
-
 
                         else
                         {
@@ -227,6 +248,14 @@ namespace JogoTermo.ConsoleApp
                             {
                                 Console.WriteLine($"{palavraDigitada[i]} -> {resultado[i]}");
                             }
+                            
+                            if (tentativas >= 5)
+                            {
+                                Console.WriteLine("Acabaram as chances. Você perdeu");
+                                jogoAtivo = false;
+                                break;
+                            }
+
                         }
                     }
 
@@ -255,6 +284,21 @@ namespace JogoTermo.ConsoleApp
 
                 else
                     Console.WriteLine("Apenas (S/N) serão aceitos");
+
+
+                //while (true) SUBSTITUIR O CODE ACIMA
+                //{
+                //    Console.Write("Deseja continuar? (S/N): ");
+                //    string resposta = Console.ReadLine()!.ToUpper();
+
+                //    if (resposta == "S")
+                //        break;
+
+                //    if (resposta == "N")
+                //        return;
+
+                //    Console.WriteLine("Apenas S ou N.");
+                //}
             }
            
         }
