@@ -14,13 +14,13 @@ cada letra com uma cor diferente:
 ● Cinza escuro: letra já acertada.
 
 3. Condição de Vitória
-● Se a palavra digitada for exatamente igual à palavra escolhida, o jogador
+X Se a palavra digitada for exatamente igual à palavra escolhida, o jogador
 vence.
-● O jogo exibe uma mensagem de sucesso e aguarda o jogador pressionar
+X O jogo exibe uma mensagem de sucesso e aguarda o jogador pressionar
 ENTER para sair.
 
 4. Condição de Derrota
-● Se o jogador não acertar a palavra antes do fim das tentativas (5), ele
+X Se o jogador não acertar a palavra antes do fim das tentativas (5), ele
 perde.
-● O jogo exibe uma mensagem de derrota e aguarda o jogador pressionar
+X O jogo exibe uma mensagem de derrota e aguarda o jogador pressionar
 ENTER para sair.e

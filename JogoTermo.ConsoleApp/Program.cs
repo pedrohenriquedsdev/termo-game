@@ -163,13 +163,21 @@ namespace JogoTermo.ConsoleApp
 
                         tentativas++;
 
-                        if (palavraDigitada == palavraAleatoria) //user acertou de primeira o fdp
+                        if (tentativas >= 5)
+                        {
+                            Console.WriteLine("Acabaram as chances. Você perdeu");
+                            jogoAtivo = false;
+                            break;
+                        }
+
+                        else if (palavraDigitada == palavraAleatoria) //user acertou de primeira o fdp
                         {
                             Console.WriteLine("Usuário acertou a palavra!");
                             Console.WriteLine($"Em {tentativas} tentativa(s)");
                             jogadorAcertou = true;
                             jogoAtivo = false;
                         }
+
 
                         else
                         {
@@ -214,7 +222,7 @@ namespace JogoTermo.ConsoleApp
                                     resultado[i] = "VERMELHO";
                             }
 
-                            // 🎯 exibir resultado final
+                            //exibir resultado final
                             for (int i = 0; i < resultado.Length; i++)
                             {
                                 Console.WriteLine($"{palavraDigitada[i]} -> {resultado[i]}");
