@@ -153,13 +153,13 @@ namespace JogoTermo.ConsoleApp
 
                     bool jogadorAcertou = false;
                     int tentativas = 0;
-                    List<string> tentativasFeitas = new List<string>(); //armazenda palavras ja digitadas para nao contar como tentativa
+                    List<string> tentativasFeitas = new List<string>(); //armazena palavras ja digitadas pra não contar como tentativa
 
 
 
                     while (!jogadorAcertou)
-                    {                    
-
+                    {
+                        #region Validações
                         Console.WriteLine("Digite uma palavra: ");
                         string palavraDigitada = Console.ReadLine()!.ToUpper();
                         //tratar erros de entrada
@@ -189,6 +189,7 @@ namespace JogoTermo.ConsoleApp
                         }
 
                         tentativasFeitas.Add(palavraDigitada);
+                        #endregion
 
                         tentativas++;
                         
