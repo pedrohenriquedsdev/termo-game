@@ -8,7 +8,7 @@
         static readonly ConsoleColor CorTexto = ConsoleColor.Gray;
         static readonly ConsoleColor CorVerde = ConsoleColor.Green;
         static readonly ConsoleColor CorAmarelo = ConsoleColor.Yellow;
-        static readonly ConsoleColor CorVermelho = ConsoleColor.DarkGray;
+        static readonly ConsoleColor CorVermelho = ConsoleColor.Red;
 
         public static void ExibirBanner()
         {
@@ -157,8 +157,6 @@
             Console.ReadLine();
         }
 
-        // ── Métodos internos ──────────────────────────────────────────
-
         private static string ObterIndentGrade(int tamanho)
         {
             int total = tamanho * (5 + 1) - 1;
@@ -171,7 +169,6 @@
             string indent = ObterIndentGrade(palavraAleatoria.Length);
             string[] resultado = Game.CalcularResultado(palavraDigitada, palavraAleatoria);
 
-            // topo
             for (int i = 0; i < resultado.Length; i++)
             {
                 Console.ForegroundColor = CorDe(resultado[i]);
@@ -179,9 +176,9 @@
                 Console.ResetColor();
                 if (i < resultado.Length - 1) Console.Write(" ");
             }
-            Console.WriteLine(); Console.Write(indent);
+            Console.WriteLine();
+            Console.Write(indent);
 
-            // letras
             for (int i = 0; i < resultado.Length; i++)
             {
                 Console.ForegroundColor = CorDe(resultado[i]);
@@ -193,9 +190,9 @@
                 Console.ResetColor();
                 if (i < resultado.Length - 1) Console.Write(" ");
             }
-            Console.WriteLine(); Console.Write(indent);
+            Console.WriteLine();
+            Console.Write(indent);
 
-            // base
             for (int i = 0; i < resultado.Length; i++)
             {
                 Console.ForegroundColor = CorDe(resultado[i]);
@@ -210,22 +207,35 @@
             string indent = ObterIndentGrade(tamanho);
 
             Console.ForegroundColor = CorSecundaria;
-            for (int i = 0; i < tamanho; i++) { Console.Write("┌───┐"); if (i < tamanho - 1) Console.Write(" "); }
-            Console.WriteLine(); Console.Write(indent);
+            for (int i = 0; i < tamanho; i++)
+            {
+                Console.Write("┌───┐");
+                if (i < tamanho - 1) Console.Write(" ");
+            }
+            Console.WriteLine();
+            Console.Write(indent);
 
             for (int i = 0; i < tamanho; i++)
             {
                 char letra = (palavraAtual != null && i < palavraAtual.Length) ? palavraAtual[i] : '_';
-                Console.ForegroundColor = CorSecundaria; Console.Write("│");
-                Console.ForegroundColor = CorTexto; Console.Write($" {letra} ");
-                Console.ForegroundColor = CorSecundaria; Console.Write("│");
+                Console.ForegroundColor = CorSecundaria;
+                Console.Write("│");
+                Console.ForegroundColor = CorTexto;
+                Console.Write($" {letra} ");
+                Console.ForegroundColor = CorSecundaria;
+                Console.Write("│");
                 Console.ResetColor();
                 if (i < tamanho - 1) Console.Write(" ");
             }
-            Console.WriteLine(); Console.Write(indent);
+            Console.WriteLine();
+            Console.Write(indent);
 
             Console.ForegroundColor = CorSecundaria;
-            for (int i = 0; i < tamanho; i++) { Console.Write("└───┘"); if (i < tamanho - 1) Console.Write(" "); }
+            for (int i = 0; i < tamanho; i++)
+            {
+                Console.Write("└───┘");
+                if (i < tamanho - 1) Console.Write(" ");
+            }
             Console.ResetColor();
         }
 
@@ -234,23 +244,51 @@
             string indent = ObterIndentGrade(tamanho);
 
             Console.ForegroundColor = CorDetalhe;
-            for (int i = 0; i < tamanho; i++) { Console.Write("┌───┐"); if (i < tamanho - 1) Console.Write(" "); }
-            Console.WriteLine(); Console.Write(indent);
+            for (int i = 0; i < tamanho; i++)
+            {
+                Console.Write("┌───┐");
+                if (i < tamanho - 1) Console.Write(" ");
+            }
+            Console.WriteLine();
+            Console.Write(indent);
 
-            for (int i = 0; i < tamanho; i++) { Console.Write("│   │"); if (i < tamanho - 1) Console.Write(" "); }
-            Console.WriteLine(); Console.Write(indent);
+            for (int i = 0; i < tamanho; i++)
+            {
+                Console.Write("│   │");
+                if (i < tamanho - 1) Console.Write(" ");
+            }
+            Console.WriteLine();
+            Console.Write(indent);
 
-            for (int i = 0; i < tamanho; i++) { Console.Write("└───┘"); if (i < tamanho - 1) Console.Write(" "); }
+            for (int i = 0; i < tamanho; i++)
+            {
+                Console.Write("└───┘");
+                if (i < tamanho - 1) Console.Write(" ");
+            }
             Console.ResetColor();
         }
 
         private static void ExibirLegenda()
         {
             Console.Write("  ");
-            Console.ForegroundColor = CorVerde; Console.Write("█ "); Console.ForegroundColor = CorTexto; Console.Write("Posição certa   ");
-            Console.ForegroundColor = CorAmarelo; Console.Write("█ "); Console.ForegroundColor = CorTexto; Console.Write("Letra existe   ");
-            Console.ForegroundColor = CorVermelho; Console.Write("█ "); Console.ForegroundColor = CorTexto; Console.Write("Não está");
-            Console.ResetColor(); Console.WriteLine(); Console.WriteLine();
+            Console.ForegroundColor = CorVerde;
+            Console.Write("█ ");
+            Console.ForegroundColor = CorTexto;
+            Console.Write("Posição certa   ");
+
+            Console.ForegroundColor = CorAmarelo;
+            Console.Write("█ ");
+            Console.ForegroundColor = CorTexto;
+            Console.Write("Letra existe   ");
+
+            Console.ForegroundColor = CorVermelho;
+            Console.Write("█ ");
+            Console.ForegroundColor = CorTexto;
+            Console.Write("Não está");
+
+            Console.ResetColor();
+            Console.WriteLine();
+            Console.WriteLine();
         }
 
         private static ConsoleColor CorDe(string resultado) => resultado switch
