@@ -8,300 +8,280 @@ namespace JogoTermo.ConsoleApp
         {
             while (true)
             {
-                //setup de exibição -> title termo
-                #region;
-                // ── Centralizar ─────────────────────────────────────
-                int bannerWidth = 81;
-                int pad = (Console.WindowWidth - bannerWidth) / 2;
-                string indent = new string(' ', Math.Max(0, pad));
+                ExibirBanner();
+                IniciarGame();
 
-                Console.Write(indent);
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.Write("( ___ )");
-                Console.Write("                                                               ");
-                Console.Write("( ___ )");
-                Console.WriteLine();
+                string palavraAleatoria = SortearPalavra();
+                RodarGame(palavraAleatoria);
 
-                Console.Write(indent);
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.Write(" |   |");
-                Console.ForegroundColor = ConsoleColor.DarkBlue;
-                Console.Write("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.Write("|   | ");
-                Console.WriteLine();
+                ContinuarGame();
+            }
+        }
 
-                Console.Write(indent);
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.Write(" |   |");
-                Console.Write("                                                                 ");
-                Console.Write("|   | ");
-                Console.WriteLine();
+        // ─── Exibe o título estilizado no console ─────────────────────
+        // Não recebe nada. Não retorna nada (void).
+        static void ExibirBanner()
+        {
+            int bannerWidth = 81;
+            int pad = (Console.WindowWidth - bannerWidth) / 2;
+            string indent = new string(' ', Math.Max(0, pad));
 
-                Console.Write(indent);
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.Write(" |   |");
-                Console.ForegroundColor = ConsoleColor.Magenta;
-                Console.Write("      $$$$$$$$\\ $$$$$$$$\\  $$$$$$$\\  $$\\      $$\\   $$$$$$\\       ");
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.Write("|   | ");
-                Console.WriteLine();
+            Console.Write(indent);
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write("( ___ )");
+            Console.Write("                                                               ");
+            Console.Write("( ___ )");
+            Console.WriteLine();
 
-                Console.Write(indent);
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.Write(" |   |");
-                Console.ForegroundColor = ConsoleColor.DarkMagenta;
-                Console.Write("      \\__$$  __|$$  _____|$$  __$$\\ $$$\\    $$$ |$$  __$$\\      ");
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.Write("|   | ");
-                Console.WriteLine();
+            Console.Write(indent);
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write(" |   |");
+            Console.ForegroundColor = ConsoleColor.DarkBlue;
+            Console.Write("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write("|   | ");
+            Console.WriteLine();
 
-                Console.Write(indent);
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.Write(" |   |");
-                Console.ForegroundColor = ConsoleColor.Magenta;
-                Console.Write("         $$ |   $$ |      $$ |  $$ |$$$$\\  $$$$ |$$ /  $$ |     ");
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.Write("|   | ");
-                Console.WriteLine();
+            Console.Write(indent);
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write(" |   |");
+            Console.Write("                                                                 ");
+            Console.Write("|   | ");
+            Console.WriteLine();
 
-                Console.Write(indent);
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.Write(" |   |");
-                Console.ForegroundColor = ConsoleColor.DarkMagenta;
-                Console.Write("         $$ |   $$$$$\\    $$$$$$$  |$$\\$$\\$$ $$ |$$ |  $$ |     ");
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.Write("|   | ");
-                Console.WriteLine();
+            Console.Write(indent);
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write(" |   |");
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.Write("      $$$$$$$$\\ $$$$$$$$\\  $$$$$$$\\  $$\\      $$\\   $$$$$$\\       ");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write("|   | ");
+            Console.WriteLine();
 
-                Console.Write(indent);
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.Write(" |   |");
-                Console.ForegroundColor = ConsoleColor.Magenta;
-                Console.Write("         $$ |   $$  __|   $$  __$$< $$ \\$$$  $$ |$$ |  $$ |     ");
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.Write("|   | ");
-                Console.WriteLine();
+            Console.Write(indent);
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write(" |   |");
+            Console.ForegroundColor = ConsoleColor.DarkMagenta;
+            Console.Write("      \\__$$  __|$$  _____|$$  __$$\\ $$$\\    $$$ |$$  __$$\\      ");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write("|   | ");
+            Console.WriteLine();
 
-                Console.Write(indent);
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.Write(" |   |");
-                Console.ForegroundColor = ConsoleColor.DarkMagenta;
-                Console.Write("         $$ |   $$ |      $$ |  $$ |$$ |\\$  /$$ |$$ |  $$ |     ");
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.Write("|   | ");
-                Console.WriteLine();
+            Console.Write(indent);
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write(" |   |");
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.Write("         $$ |   $$ |      $$ |  $$ |$$$$\\  $$$$ |$$ /  $$ |     ");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write("|   | ");
+            Console.WriteLine();
 
-                Console.Write(indent);
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.Write(" |   |");
-                Console.ForegroundColor = ConsoleColor.Magenta;
-                Console.Write("         $$ |   $$$$$$$$\\ $$ |  $$ |$$ | \\_/ $$ | $$$$$$  |     ");
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.Write("|   | ");
-                Console.WriteLine();
+            Console.Write(indent);
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write(" |   |");
+            Console.ForegroundColor = ConsoleColor.DarkMagenta;
+            Console.Write("         $$ |   $$$$$\\    $$$$$$$  |$$\\$$\\$$ $$ |$$ |  $$ |     ");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write("|   | ");
+            Console.WriteLine();
 
-                Console.Write(indent);
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.Write(" |   |");
-                Console.ForegroundColor = ConsoleColor.DarkMagenta;
-                Console.Write("         \\__|   \\________\\\\__|  \\__|\\__|     \\__| \\______/      ");
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.Write("|   | ");
-                Console.WriteLine();
+            Console.Write(indent);
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write(" |   |");
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.Write("         $$ |   $$  __|   $$  __$$< $$ \\$$$  $$ |$$ |  $$ |     ");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write("|   | ");
+            Console.WriteLine();
 
-                Console.Write(indent);
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.Write(" |   |");
-                Console.Write("                                                                 ");
-                Console.Write("|   | ");
-                Console.WriteLine();
+            Console.Write(indent);
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write(" |   |");
+            Console.ForegroundColor = ConsoleColor.DarkMagenta;
+            Console.Write("         $$ |   $$ |      $$ |  $$ |$$ |\\$  /$$ |$$ |  $$ |     ");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write("|   | ");
+            Console.WriteLine();
 
-                Console.Write(indent);
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.Write(" |___|");
-                Console.ForegroundColor = ConsoleColor.DarkBlue;
-                Console.Write("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.Write("|___| ");
-                Console.WriteLine();
+            Console.Write(indent);
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write(" |   |");
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.Write("         $$ |   $$$$$$$$\\ $$ |  $$ |$$ | \\_/ $$ | $$$$$$  |     ");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write("|   | ");
+            Console.WriteLine();
 
-                Console.Write(indent);
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.Write("(_____)");
-                Console.Write("                                                               ");
-                Console.WriteLine("(_____)");
+            Console.Write(indent);
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write(" |   |");
+            Console.ForegroundColor = ConsoleColor.DarkMagenta;
+            Console.Write("         \\__|   \\________\\\\__|  \\__|\\__|     \\__| \\______/      ");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write("|   | ");
+            Console.WriteLine();
 
-                Console.ResetColor();
-                #endregion;
+            Console.Write(indent);
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write(" |   |");
+            Console.Write("                                                                 ");
+            Console.Write("|   | ");
+            Console.WriteLine();
 
+            Console.Write(indent);
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write(" |___|");
+            Console.ForegroundColor = ConsoleColor.DarkBlue;
+            Console.Write("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write("|___| ");
+            Console.WriteLine();
 
-                Console.WriteLine("Digite ENTER para dar início");
-                Console.ReadLine();
+            Console.Write(indent);
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write("(_____)");
+            Console.Write("                                                               ");
+            Console.WriteLine("(_____)");
 
-                bool jogoAtivo = true;
+            Console.ResetColor();
+        }
 
-                while (jogoAtivo)
+        // ─── Aguarda o jogador pressionar ENTER para começar ──────────
+        // Não recebe nada. Não retorna nada (void).
+        static void IniciarGame()
+        {
+            Console.WriteLine("Digite ENTER para dar início");
+            Console.ReadLine();
+        }
+
+        // ─── Escolhe uma palavra aleatória da lista ───────────────────
+        // Retorna a palavra sorteada (string).
+        static string SortearPalavra()
+        {
+            string[] palavras = { "CASAS", "LIVRO", "PRATO", "PEDRA", "BARCO" };
+            int indiceAleatorio = RandomNumberGenerator.GetInt32(palavras.Length);
+            return palavras[indiceAleatorio];
+        }
+
+        // ─── Lógica principal do jogo ─────────────────────────────────
+        // Recebe: palavraAleatoria (string).
+        static void RodarGame(string palavraAleatoria)
+        {
+            bool jogadorAcertou = false;
+            int tentativas = 0;
+            List<string> tentativasFeitas = new List<string>();
+
+            while (!jogadorAcertou)
+            {
+                // ── Validações ────────────────────────────────────────
+                Console.WriteLine("Digite uma palavra: ");
+                string palavraDigitada = Console.ReadLine()!.ToUpper();
+
+                if (string.IsNullOrWhiteSpace(palavraDigitada))
                 {
-                    string[] palavras = { "CASAS", "LIVRO", "PRATO", "PEDRA", "BARCO" };
+                    Console.WriteLine("Digite uma palavra válida.");
+                    continue;
+                }
 
-                    int indiceAleatorio = RandomNumberGenerator.GetInt32(palavras.Length);
+                if (palavraDigitada.Length != palavraAleatoria.Length)
+                {
+                    Console.WriteLine($"A palavra deve ter {palavraAleatoria.Length} letras.");
+                    continue;
+                }
 
-                    string palavraAleatoria = palavras[indiceAleatorio];
-                    Console.WriteLine($"Colinha da palavra aleatória: {palavraAleatoria}"); //ocultar a palavra depois
+                if (!palavraDigitada.All(char.IsLetter))
+                {
+                    Console.WriteLine("Digite apenas letras.");
+                    continue;
+                }
 
+                if (tentativasFeitas.Contains(palavraDigitada))
+                {
+                    Console.WriteLine("Você já tentou essa palavra.");
+                    continue;
+                }
 
-                    bool jogadorAcertou = false;
-                    int tentativas = 0;
-                    List<string> tentativasFeitas = new List<string>(); //armazena palavras ja digitadas pra não contar como tentativa
+                tentativasFeitas.Add(palavraDigitada);
+                tentativas++;
 
+                // ── Acertou ───────────────────────────────────────────
+                if (palavraDigitada == palavraAleatoria)
+                {
+                    Console.WriteLine("Você acertou a palavra!");
+                    Console.WriteLine($"Em {tentativas} tentativa(s).");
+                    jogadorAcertou = true;
+                    return;
+                }
 
+                // ── Comparação letra por letra ────────────────────────
+                string[] resultado = new string[palavraAleatoria.Length];
+                bool[] letrasUsadas = new bool[palavraAleatoria.Length];
 
-                    while (!jogadorAcertou)
+                // 1ª passada: verdes (posição certa)
+                for (int i = 0; i < palavraAleatoria.Length; i++)
+                {
+                    if (palavraDigitada[i] == palavraAleatoria[i])
                     {
-                        #region Validações
-                        Console.WriteLine("Digite uma palavra: ");
-                        string palavraDigitada = Console.ReadLine()!.ToUpper();
-                        //tratar erros de entrada
+                        resultado[i] = "VERDE";
+                        letrasUsadas[i] = true;
+                    }
+                }
 
-                        if (string.IsNullOrWhiteSpace(palavraDigitada))
+                // 2ª passada: amarelo (letra existe, posição errada) ou vermelho (não existe)
+                for (int i = 0; i < palavraAleatoria.Length; i++)
+                {
+                    if (resultado[i] == "VERDE")
+                        continue;
+
+                    bool encontrou = false;
+
+                    for (int j = 0; j < palavraAleatoria.Length; j++)
+                    {
+                        if (palavraDigitada[i] == palavraAleatoria[j] && !letrasUsadas[j])
                         {
-                            Console.Write("Digite uma palavra válida.");
-                            continue;
-                        }
-
-                        if (palavraDigitada.Length != palavraAleatoria.Length)
-                        {
-                            Console.WriteLine($"A palavra deve ter {palavraAleatoria.Length} letras.");
-                            continue;
-                        }
-
-                        if (!palavraDigitada.All(char.IsLetter))
-                        {
-                            Console.WriteLine("Digite apenas letras.");
-                            continue;
-                        }
-
-                        if (tentativasFeitas.Contains(palavraDigitada))
-                        {
-                            Console.WriteLine("Você já tentou essa palavra.");
-                            continue;
-                        }
-
-                        tentativasFeitas.Add(palavraDigitada);
-                        #endregion
-
-                        tentativas++;
-                        
-                        if (palavraDigitada == palavraAleatoria) //user acertou de primeira o fdp
-                        {
-                            Console.WriteLine("Usuário acertou a palavra!");
-                            Console.WriteLine($"Em {tentativas} tentativa(s)");
-                            jogadorAcertou = true;
-                            jogoAtivo = false;
-                        }
-
-                        else
-                        {
-                            string[] resultado = new string[palavraAleatoria.Length];
-                            bool[] letrasUsadas = new bool[palavraAleatoria.Length]; //armazena valores bools para letras encontradas(true) & letras nao encontradas(false)
-
-                            //passada -> verdes
-                            for (int i = 0; i < palavraAleatoria.Length; i++)
-                            {
-                                if (palavraDigitada[i] == palavraAleatoria[i])
-                                {
-                                    resultado[i] = "VERDE";
-                                    letrasUsadas[i] = true;
-                                }
-                            }
-
-                            //passada -> amarelo/vermelho
-                            for (int i = 0; i < palavraAleatoria.Length; i++)
-                            {
-                                // se já foi verde vai pular
-                                if (resultado[i] == "VERDE")
-                                    continue;
-
-                                bool encontrou = false;
-
-                                for (int j = 0; j < palavraAleatoria.Length; j++)//loop de verificação dos espaços restantes
-                                {
-                                    bool letraEhIgual = palavraDigitada[i] == palavraAleatoria[j]; //retorno do indice na palavra digitada e aleatoria
-                                    bool letraLivre = letrasUsadas[j] == false; //se nao tiver usada (== false) retorna true
-
-                                    if (letraEhIgual && letraLivre)
-                                    {
-                                        encontrou = true;
-                                        letrasUsadas[j] = true;
-                                        break;
-                                    }
-                                }
-
-                                if (encontrou)
-                                    resultado[i] = "AMARELO";
-                                else
-                                    resultado[i] = "VERMELHO";
-                            }
-
-                            //exibir resultado final
-                            for (int i = 0; i < resultado.Length; i++)
-                            {
-                                Console.WriteLine($"{palavraDigitada[i]} -> {resultado[i]}");
-                            }
-                            
-                            if (tentativas >= 5)
-                            {
-                                Console.WriteLine("Acabaram as chances. Você perdeu");
-                                jogoAtivo = false;
-                                break;
-                            }
-
+                            encontrou = true;
+                            letrasUsadas[j] = true;
+                            break;
                         }
                     }
 
-
-
+                    resultado[i] = encontrou ? "AMARELO" : "VERMELHO";
                 }
 
-                Console.WriteLine("Deseja continuar? (s/N)");
-                string? usuarioDesejaContinuar = Console.ReadLine()!.ToUpper();
+                // ── Exibir resultado ──────────────────────────────────
+                for (int i = 0; i < resultado.Length; i++)
+                    Console.WriteLine($"{palavraDigitada[i]} -> {resultado[i]}");
 
-                //VERIFICA INPUT DO USER PARA CONTINUAÇÃO OU NÃO DO PROGRAM
-                if (string.IsNullOrWhiteSpace(usuarioDesejaContinuar))
-                    Console.WriteLine("Insira algum dado válido!");
+                // ── Verificar limite de tentativas ────────────────────
+                if (tentativas >= 5)
+                {
+                    Console.WriteLine($"Acabaram as chances. A palavra era: {palavraAleatoria}");
+                    return;
+                }
+            }
+        }
 
-                else if (usuarioDesejaContinuar.Any(char.IsDigit))
-                    Console.WriteLine("Números não serão aceitos como resposta!");
+        // ─── Pergunta se o jogador quer jogar de novo ─────────────────
+        // Não recebe nada. Não retorna nada (void).
+        // Encerra o processo se o jogador digitar "N".
+        static void ContinuarGame()
+        {
+            while (true)
+            {
+                Console.Write("Deseja continuar? (S/N): ");
+                string resposta = Console.ReadLine()!.Trim().ToUpper();
 
-                else if (usuarioDesejaContinuar == "S")
-                    Console.WriteLine("Continuando...");
+                if (resposta == "S")
+                    return;
 
-                else if (usuarioDesejaContinuar == "N")
+                if (resposta == "N")
                 {
                     Console.WriteLine("Até mais, meu querido!");
-                    break;
+                    Environment.Exit(0);
                 }
 
-                else
-                    Console.WriteLine("Apenas (S/N) serão aceitos");
-
-
-                //while (true) SUBSTITUIR O CODE ACIMA
-                //{
-                //    Console.Write("Deseja continuar? (S/N): ");
-                //    string resposta = Console.ReadLine()!.ToUpper();
-
-                //    if (resposta == "S")
-                //        break;
-
-                //    if (resposta == "N")
-                //        return;
-
-                //    Console.WriteLine("Apenas S ou N.");
-                //}
+                Console.WriteLine("Apenas S ou N.");
             }
-           
         }
     }
 }
