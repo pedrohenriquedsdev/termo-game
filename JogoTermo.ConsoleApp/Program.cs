@@ -4,10 +4,20 @@ namespace JogoTermo.ConsoleApp
 {
     internal class Program
     {
+        static readonly ConsoleColor CorPrimaria = ConsoleColor.DarkMagenta;
+        static readonly ConsoleColor CorSecundaria = ConsoleColor.Magenta;
+        static readonly ConsoleColor CorDetalhe = ConsoleColor.DarkGray;
+        static readonly ConsoleColor CorTexto = ConsoleColor.Gray;
+
+        static readonly ConsoleColor CorVerde = ConsoleColor.Green;
+        static readonly ConsoleColor CorAmarelo = ConsoleColor.Yellow;
+        static readonly ConsoleColor CorVermelho = ConsoleColor.DarkGray;
+
         static void Main(string[] args)
         {
             while (true)
             {
+                Console.Clear();
                 ExibirBanner();
                 IniciarGame();
 
@@ -18,8 +28,6 @@ namespace JogoTermo.ConsoleApp
             }
         }
 
-        // ─── Exibe o título estilizado no console ─────────────────────
-        // Não recebe nada. Não retorna nada (void).
         static void ExibirBanner()
         {
             int bannerWidth = 81;
@@ -144,143 +152,392 @@ namespace JogoTermo.ConsoleApp
             Console.WriteLine("(_____)");
 
             Console.ResetColor();
+            ExibirSeparador();
         }
 
-        // ─── Aguarda o jogador pressionar ENTER para começar ──────────
-        // Não recebe nada. Não retorna nada (void).
+        static void ExibirSeparador()
+        {
+            Console.ForegroundColor = CorPrimaria;
+            Console.WriteLine("  " + new string('─', 53));
+            Console.ResetColor();
+        }
+
+        static void ExibirLinhaCentralizada(string texto, ConsoleColor cor)
+        {
+            Console.ForegroundColor = cor;
+            int pad = Math.Max(0, (Console.WindowWidth - texto.Length) / 2);
+            Console.WriteLine(new string(' ', pad) + texto);
+            Console.ResetColor();
+        }
+
+        static string ObterIndentGrade(int tamanhoGrade)
+        {
+            int totalLargura = tamanhoGrade * (5 + 1) - 1;
+            int pad = Math.Max(0, (Console.WindowWidth - totalLargura) / 2);
+            return new string(' ', pad);
+        }
+
         static void IniciarGame()
         {
-            Console.WriteLine("Digite ENTER para dar início");
+            ExibirLinhaCentralizada("Pressione ENTER para começar", CorDetalhe);
             Console.ReadLine();
         }
 
-        // ─── Escolhe uma palavra aleatória da lista ───────────────────
-        // Retorna a palavra sorteada (string).
         static string SortearPalavra()
         {
             string[] palavras = { "CASAS", "LIVRO", "PRATO", "PEDRA", "BARCO" };
-            int indiceAleatorio = RandomNumberGenerator.GetInt32(palavras.Length);
-            return palavras[indiceAleatorio];
+            int indice = RandomNumberGenerator.GetInt32(palavras.Length);
+            return palavras[indice];
         }
 
-        // ─── Lógica principal do jogo ─────────────────────────────────
-        // Recebe: palavraAleatoria (string).
+        static string[] CalcularResultado(string palavraDigitada, string palavraAleatoria)
+        {
+            string[] resultado = new string[palavraAleatoria.Length];
+            bool[] letrasUsadas = new bool[palavraAleatoria.Length];
+
+            for (int i = 0; i < palavraAleatoria.Length; i++)
+            {
+                if (palavraDigitada[i] == palavraAleatoria[i])
+                {
+                    resultado[i] = "VERDE";
+                    letrasUsadas[i] = true;
+                }
+            }
+
+            for (int i = 0; i < palavraAleatoria.Length; i++)
+            {
+                if (resultado[i] == "VERDE") continue;
+
+                bool encontrou = false;
+                for (int j = 0; j < palavraAleatoria.Length; j++)
+                {
+                    if (palavraDigitada[i] == palavraAleatoria[j] && !letrasUsadas[j])
+                    {
+                        encontrou = true;
+                        letrasUsadas[j] = true;
+                        break;
+                    }
+                }
+
+                resultado[i] = encontrou ? "AMARELO" : "VERMELHO";
+            }
+
+            return resultado;
+        }
+
+        static void ExibirLinhaColorida(string palavraDigitada, string palavraAleatoria)
+        {
+            string indentGrade = ObterIndentGrade(palavraAleatoria.Length);
+            string[] resultado = CalcularResultado(palavraDigitada, palavraAleatoria);
+
+            // topo
+            for (int i = 0; i < resultado.Length; i++)
+            {
+                Console.ForegroundColor = resultado[i] switch
+                {
+                    "VERDE" => CorVerde,
+                    "AMARELO" => CorAmarelo,
+                    _ => CorVermelho
+                };
+                Console.Write("┌───┐");
+                Console.ResetColor();
+                if (i < resultado.Length - 1) Console.Write(" ");
+            }
+
+            Console.WriteLine();
+            Console.Write(indentGrade);
+
+            // letras
+            for (int i = 0; i < resultado.Length; i++)
+            {
+                ConsoleColor cor = resultado[i] switch
+                {
+                    "VERDE" => CorVerde,
+                    "AMARELO" => CorAmarelo,
+                    _ => CorVermelho
+                };
+
+                Console.ForegroundColor = cor;
+                Console.Write("│");
+                Console.ForegroundColor = ConsoleColor.Black;
+                Console.Write($" {palavraDigitada[i]} ");
+                Console.ForegroundColor = cor;
+                Console.Write("│");
+                Console.ResetColor();
+                if (i < resultado.Length - 1) Console.Write(" ");
+            }
+
+            Console.WriteLine();
+            Console.Write(indentGrade);
+
+            // base
+            for (int i = 0; i < resultado.Length; i++)
+            {
+                Console.ForegroundColor = resultado[i] switch
+                {
+                    "VERDE" => CorVerde,
+                    "AMARELO" => CorAmarelo,
+                    _ => CorVermelho
+                };
+                Console.Write("└───┘");
+                Console.ResetColor();
+                if (i < resultado.Length - 1) Console.Write(" ");
+            }
+        }
+
+        static void ExibirLinhaAtual(int tamanho, string? palavraAtual = null)
+        {
+            string indentGrade = ObterIndentGrade(tamanho);
+
+            // topo
+            Console.ForegroundColor = CorSecundaria;
+            for (int i = 0; i < tamanho; i++)
+            {
+                Console.Write("┌───┐");
+                if (i < tamanho - 1) Console.Write(" ");
+            }
+
+            Console.WriteLine();
+            Console.Write(indentGrade);
+
+            // letras ou underscores
+            for (int i = 0; i < tamanho; i++)
+            {
+                char letra = (palavraAtual != null && i < palavraAtual.Length)
+                    ? palavraAtual[i]
+                    : '_';
+
+                Console.ForegroundColor = CorSecundaria;
+                Console.Write("│");
+                Console.ForegroundColor = CorTexto;
+                Console.Write($" {letra} ");
+                Console.ForegroundColor = CorSecundaria;
+                Console.Write("│");
+                Console.ResetColor();
+                if (i < tamanho - 1) Console.Write(" ");
+            }
+
+            Console.WriteLine();
+            Console.Write(indentGrade);
+
+            // base
+            Console.ForegroundColor = CorSecundaria;
+            for (int i = 0; i < tamanho; i++)
+            {
+                Console.Write("└───┘");
+                if (i < tamanho - 1) Console.Write(" ");
+            }
+            Console.ResetColor();
+        }
+
+        static void ExibirLinhaVazia(int tamanho)
+        {
+            string indentGrade = ObterIndentGrade(tamanho);
+
+            Console.ForegroundColor = CorDetalhe;
+            for (int i = 0; i < tamanho; i++)
+            {
+                Console.Write("┌───┐");
+                if (i < tamanho - 1) Console.Write(" ");
+            }
+
+            Console.WriteLine();
+            Console.Write(indentGrade);
+
+            for (int i = 0; i < tamanho; i++)
+            {
+                Console.Write("│   │");
+                if (i < tamanho - 1) Console.Write(" ");
+            }
+
+            Console.WriteLine();
+            Console.Write(indentGrade);
+
+            for (int i = 0; i < tamanho; i++)
+            {
+                Console.Write("└───┘");
+                if (i < tamanho - 1) Console.Write(" ");
+            }
+            Console.ResetColor();
+        }
+
+        static void ExibirLegenda()
+        {
+            Console.Write("  ");
+            Console.ForegroundColor = CorVerde;
+            Console.Write("█ ");
+            Console.ForegroundColor = CorTexto;
+            Console.Write("Posição certa   ");
+
+            Console.ForegroundColor = CorAmarelo;
+            Console.Write("█ ");
+            Console.ForegroundColor = CorTexto;
+            Console.Write("Letra existe   ");
+
+            Console.ForegroundColor = CorVermelho;
+            Console.Write("█ ");
+            Console.ForegroundColor = CorTexto;
+            Console.Write("Não está");
+
+            Console.ResetColor();
+            Console.WriteLine();
+            Console.WriteLine();
+        }
+
+        static void ExibirTela(List<string> tentativasFeitas, string palavraAleatoria,
+                                int maxTentativas, string? palavraAtual = null)
+        {
+            Console.Clear();
+            ExibirBanner();
+            ExibirStatus(tentativasFeitas.Count + 1, maxTentativas);
+            ExibirGrade(tentativasFeitas, palavraAleatoria, maxTentativas, palavraAtual);
+        }
+        static void ExibirStatus(int tentativaAtual, int maxTentativas)
+        {
+            Console.WriteLine();
+            Console.ForegroundColor = CorDetalhe;
+            Console.Write("  Tentativa ");
+            Console.ForegroundColor = CorSecundaria;
+            Console.Write($"{tentativaAtual}");
+            Console.ForegroundColor = CorDetalhe;
+            Console.Write($" de {maxTentativas}");
+            Console.ResetColor();
+            Console.WriteLine();
+        }
+
+        static void ExibirGrade(List<string> tentativasFeitas, string palavraAleatoria,
+                                 int maxTentativas, string? palavraAtual = null)
+        {
+            Console.WriteLine();
+            string indentGrade = ObterIndentGrade(palavraAleatoria.Length);
+
+            for (int linha = 0; linha < maxTentativas; linha++)
+            {
+                Console.Write(indentGrade);
+
+                if (linha < tentativasFeitas.Count)
+                    ExibirLinhaColorida(tentativasFeitas[linha], palavraAleatoria);
+                else if (linha == tentativasFeitas.Count)
+                    ExibirLinhaAtual(palavraAleatoria.Length, palavraAtual);
+                else
+                    ExibirLinhaVazia(palavraAleatoria.Length);
+
+                Console.WriteLine();
+            }
+
+            Console.WriteLine();
+            ExibirLegenda();
+            ExibirSeparador();
+        }
+        static void ExibirMensagem(string texto, ConsoleColor cor)
+        {
+            Console.WriteLine();
+            Console.ForegroundColor = cor;
+            Console.WriteLine($"  {texto}");
+            Console.ResetColor();
+        }
+
+        static void Pausar()
+        {
+            Console.ForegroundColor = CorDetalhe;
+            Console.WriteLine("\n  Pressione ENTER para continuar...");
+            Console.ResetColor();
+            Console.ReadLine();
+        }
+
         static void RodarGame(string palavraAleatoria)
         {
-            bool jogadorAcertou = false;
-            int tentativas = 0;
+            const int maxTentativas = 5;
             List<string> tentativasFeitas = new List<string>();
 
-            while (!jogadorAcertou)
+            while (tentativasFeitas.Count < maxTentativas)
             {
-                // ── Validações ────────────────────────────────────────
-                Console.WriteLine("Digite uma palavra: ");
-                string palavraDigitada = Console.ReadLine()!.ToUpper();
+                // Desenha a grade com a linha atual em branco
+                ExibirTela(tentativasFeitas, palavraAleatoria, maxTentativas);
 
+                // Captura input
+                Console.ForegroundColor = CorDetalhe;
+                Console.Write("  Digite uma palavra: ");
+                Console.ForegroundColor = CorTexto;
+                string palavraDigitada = Console.ReadLine()!.Trim().ToUpper();
+                Console.ResetColor();
+
+                // ── Validações ─────────────────────────────────────────
                 if (string.IsNullOrWhiteSpace(palavraDigitada))
                 {
-                    Console.WriteLine("Digite uma palavra válida.");
+                    ExibirMensagem("Digite uma palavra válida.", ConsoleColor.DarkRed);
+                    Pausar();
                     continue;
                 }
 
                 if (palavraDigitada.Length != palavraAleatoria.Length)
                 {
-                    Console.WriteLine($"A palavra deve ter {palavraAleatoria.Length} letras.");
+                    ExibirMensagem($"A palavra deve ter {palavraAleatoria.Length} letras.", ConsoleColor.DarkRed);
+                    Pausar();
                     continue;
                 }
 
                 if (!palavraDigitada.All(char.IsLetter))
                 {
-                    Console.WriteLine("Digite apenas letras.");
+                    ExibirMensagem("Digite apenas letras.", ConsoleColor.DarkRed);
+                    Pausar();
                     continue;
                 }
 
                 if (tentativasFeitas.Contains(palavraDigitada))
                 {
-                    Console.WriteLine("Você já tentou essa palavra.");
+                    ExibirMensagem("Você já tentou essa palavra.", ConsoleColor.DarkYellow);
+                    Pausar();
                     continue;
                 }
 
                 tentativasFeitas.Add(palavraDigitada);
-                tentativas++;
 
-                // ── Acertou ───────────────────────────────────────────
+                // Redesenha mostrando a palavra na linha atual antes de processar
+                ExibirTela(tentativasFeitas, palavraAleatoria, maxTentativas);
+
+                // ── Acertou ────────────────────────────────────────────
                 if (palavraDigitada == palavraAleatoria)
                 {
-                    Console.WriteLine("Você acertou a palavra!");
-                    Console.WriteLine($"Em {tentativas} tentativa(s).");
-                    jogadorAcertou = true;
+                    ExibirMensagem($"Parabéns! Você acertou em {tentativasFeitas.Count} tentativa(s)!", CorVerde);
+                    Pausar();
                     return;
                 }
 
-                // ── Comparação letra por letra ────────────────────────
-                string[] resultado = new string[palavraAleatoria.Length];
-                bool[] letrasUsadas = new bool[palavraAleatoria.Length];
-
-                // 1ª passada: verdes (posição certa)
-                for (int i = 0; i < palavraAleatoria.Length; i++)
+                // ── Perdeu ─────────────────────────────────────────────
+                if (tentativasFeitas.Count == maxTentativas)
                 {
-                    if (palavraDigitada[i] == palavraAleatoria[i])
-                    {
-                        resultado[i] = "VERDE";
-                        letrasUsadas[i] = true;
-                    }
-                }
-
-                // 2ª passada: amarelo (letra existe, posição errada) ou vermelho (não existe)
-                for (int i = 0; i < palavraAleatoria.Length; i++)
-                {
-                    if (resultado[i] == "VERDE")
-                        continue;
-
-                    bool encontrou = false;
-
-                    for (int j = 0; j < palavraAleatoria.Length; j++)
-                    {
-                        if (palavraDigitada[i] == palavraAleatoria[j] && !letrasUsadas[j])
-                        {
-                            encontrou = true;
-                            letrasUsadas[j] = true;
-                            break;
-                        }
-                    }
-
-                    resultado[i] = encontrou ? "AMARELO" : "VERMELHO";
-                }
-
-                // ── Exibir resultado ──────────────────────────────────
-                for (int i = 0; i < resultado.Length; i++)
-                    Console.WriteLine($"{palavraDigitada[i]} -> {resultado[i]}");
-
-                // ── Verificar limite de tentativas ────────────────────
-                if (tentativas >= 5)
-                {
-                    Console.WriteLine($"Acabaram as chances. A palavra era: {palavraAleatoria}");
+                    ExibirMensagem($"Fim de jogo! A palavra era: {palavraAleatoria}", ConsoleColor.DarkRed);
+                    Pausar();
                     return;
                 }
             }
         }
 
-        // ─── Pergunta se o jogador quer jogar de novo ─────────────────
-        // Não recebe nada. Não retorna nada (void).
-        // Encerra o processo se o jogador digitar "N".
         static void ContinuarGame()
         {
             while (true)
             {
-                Console.Write("Deseja continuar? (S/N): ");
+                Console.WriteLine();
+                Console.ForegroundColor = CorDetalhe;
+                Console.Write("  Deseja jogar novamente? ");
+                Console.ForegroundColor = CorSecundaria;
+                Console.Write("(S/N): ");
+                Console.ResetColor();
+
                 string resposta = Console.ReadLine()!.Trim().ToUpper();
 
-                if (resposta == "S")
-                    return;
+                if (resposta == "S") return;
 
                 if (resposta == "N")
                 {
-                    Console.WriteLine("Até mais, meu querido!");
+                    ExibirSeparador();
+                    ExibirLinhaCentralizada("Até a próxima!", CorSecundaria);
+                    ExibirSeparador();
                     Environment.Exit(0);
                 }
 
-                Console.WriteLine("Apenas S ou N.");
+                ExibirMensagem("Digite apenas S ou N.", ConsoleColor.DarkYellow);
             }
         }
     }
