@@ -1,69 +1,139 @@
 # 🎯 Jogo Termo (C# Console)
 
-![Gameplay](docs/WindowsTerminal_A9ojdVtT87.gif)
+![Gameplay](docs/WindowsTerminal_TN56IACyGW.gif)
 
-Um jogo inspirado no famoso **Termo / Wordle**, desenvolvido em **C#** no console com foco em **lógica de programação, manipulação de strings, validação de entradas e organização em métodos**.
+Um jogo inspirado no clássico **Termo / Wordle**, desenvolvido em **C#**
+com foco em **lógica de programação, validação de entradas, manipulação
+de strings e experiência visual no console**.
 
-O projeto foi criado para praticar conceitos fundamentais de desenvolvimento backend com **C# e .NET**, simulando a mecânica clássica de descoberta de palavras com feedback por letras.
+O projeto simula a mecânica de descoberta de palavras com feedback
+visual por cores, utilizando uma estrutura organizada em métodos e
+separação de responsabilidades.
 
----
+------------------------------------------------------------------------
 
 ## 🚀 Funcionalidades
 
-🔹 Sorteio aleatório de palavras  
-🔹 Sistema de até **5 tentativas**  
-🔹 Validação completa de entradas  
-🔹 Bloqueio de palavras repetidas  
-🔹 Feedback por letra:
-- 🟩 **VERDE** → letra correta na posição correta
-- 🟨 **AMARELO** → letra existe na palavra, mas em outra posição
-- 🟥 **VERMELHO** → letra não existe na palavra
+🔹 Sorteio aleatório de palavras\
+🔹 Sistema de até **5 tentativas**\
+🔹 Feedback visual por letra: - 🟩 **VERDE** → letra correta na posição
+correta - 🟨 **AMARELO** → letra existe na palavra, mas em outra
+posição - 🟥 **VERMELHO** → letra não está na palavra
 
-🔹 Controle de continuação da partida  
-🔹 Estrutura modular com métodos  
-🔹 Exibição visual personalizada no console  
+🔹 Bloqueio de palavras repetidas\
+🔹 Validação completa de entradas\
+🔹 Sistema de reinício de partida\
+🔹 Interface visual estilizada no terminal\
+🔹 Estrutura modular com classes: - `Game` - `Display` - `WordService`
 
----
+------------------------------------------------------------------------
 
 ## 🎮 Como funciona
 
-1. O jogo sorteia uma palavra secreta de 5 letras  
-2. O jogador digita uma tentativa  
-3. O sistema valida:
-- tamanho da palavra
-- apenas letras
-- palavras já utilizadas
-- entrada vazia
+1.  O jogo sorteia uma palavra secreta
+2.  O jogador possui até **5 tentativas**
+3.  A cada tentativa:
+    -   a palavra é validada
+    -   a grade é atualizada
+    -   cada letra recebe sua cor
+4.  O jogador vence ao acertar a palavra
+5.  Ao final, pode escolher jogar novamente
 
-4. O jogo retorna o status de cada letra:
-- posição correta
-- letra existente
-- letra ausente
-
-5. O jogador possui até **5 chances**
-6. Ao final, pode escolher jogar novamente
-
----
+------------------------------------------------------------------------
 
 ## 🧠 Exemplo de execução
 
-```text
-=== TERMO ===
+``` text
+🎯 TERMO
 
-Digite ENTER para dar início
+Tentativa 1 de 5
+
+┌───┐ ┌───┐ ┌───┐ ┌───┐ ┌───┐
+│ C │ │ A │ │ S │ │ A │ │ L │
+└───┘ └───┘ └───┘ └───┘ └───┘
+
+█ Posição certa
+█ Letra existe
+█ Não está
 
 Digite uma palavra:
-CASAL
+```
 
-C -> VERDE
-A -> VERDE
-S -> AMARELO
-A -> VERMELHO
-L -> VERMELHO
+------------------------------------------------------------------------
 
-Digite uma palavra:
-CASAS
+## 🛠️ Tecnologias utilizadas
 
-Acertou em 2 tentativa(s)!
+-   C#
+-   .NET
+-   Console Application
+-   `RandomNumberGenerator`
+-   Programação orientada a métodos
+-   Manipulação de listas e arrays
+-   Console UI personalizada
 
-Deseja continuar? (S/N):
+------------------------------------------------------------------------
+
+## 📌 Conceitos aplicados
+
+-   Estruturas condicionais (`if`)
+-   Estruturas de repetição (`while`, `for`)
+-   Manipulação de strings
+-   Arrays (`string[]`, `bool[]`)
+-   Listas (`List<string>`)
+-   Validação de entrada
+-   Controle de fluxo
+-   Separação de responsabilidades
+-   UI em console
+-   Lógica de comparação de letras
+
+------------------------------------------------------------------------
+
+## 🧱 Estrutura do projeto
+
+``` text
+JogoTermo
+ ┣ 📂 docs
+ ┃ ┗ 📄 WindowsTerminal_TN56IACyGW.gif
+ ┣ 📂 JogoTermo.ConsoleApp
+ ┃ ┣ 📄 Program.cs
+ ┃ ┣ 📄 Game.cs
+ ┃ ┣ 📄 Display.cs
+ ┃ ┗ 📄 WordService.cs
+ ┗ 📄 README.md
+```
+
+------------------------------------------------------------------------
+
+## ▶️ Como executar
+
+``` bash
+# Clone o repositório
+git clone https://github.com/seu-usuario/termo-game.git
+
+# Acesse a pasta
+cd termo-game
+
+# Execute o projeto
+dotnet run
+```
+
+------------------------------------------------------------------------
+
+## 📈 Possíveis melhorias
+
+-   Banco maior de palavras
+-   Níveis de dificuldade
+-   Ranking local
+-   Persistência em JSON
+-   Histórico de partidas
+-   Tema claro/escuro
+-   Modo competitivo
+-   Multiplayer local
+-   Versão com interface gráfica (WPF)
+
+------------------------------------------------------------------------
+
+## 👨‍💻 Autor
+
+**Pedro Henrique dos Santos**\
+🚀 Desenvolvedor focado em evolução constante com **C# e .NET**
